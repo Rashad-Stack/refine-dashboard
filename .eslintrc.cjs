@@ -12,5 +12,6 @@ module.exports = {
   plugins: ["react-refresh"],
   rules: {
     "react-refresh/only-export-components": "warn",
+    // "no-mixed-spaces-and-tabs": "off",
   },
 };
