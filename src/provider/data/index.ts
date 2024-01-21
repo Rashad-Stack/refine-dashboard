@@ -6,8 +6,8 @@ import { createClient } from "graphql-ws";
 import { fetchWrapper } from "./fetch-wrapper";
 
 export const API_BASE_URL = "https://api.crm.refine.dev";
-export const API_URL = "http://localhost:3000/graphql";
-export const WS_URL = "wssL//api.crm.refine.dev/graphql";
+export const API_URL = `${API_BASE_URL}/graphql`;
+export const WS_URL = "wssL://api.crm.refine.dev/graphql";
 
 export const client = new GraphQLClient(API_URL, {
   fetch: (url: string, options: RequestInit) => {
