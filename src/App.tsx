@@ -14,6 +14,7 @@ import { App as AntdApp } from "antd";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/layout";
+import { resources } from "./config/resources";
 import { ForgotPassword } from "./pages/forgotPassword";
 import Home from "./pages/home";
 import { Login } from "./pages/login";
@@ -33,6 +34,7 @@ function App() {
               notificationProvider={useNotificationProvider}
               routerProvider={routerBindings}
               authProvider={authProvider}
+              resources={resources}
               options={{
                 syncWithLocation: true,
                 warnWhenUnsavedChanges: true,
