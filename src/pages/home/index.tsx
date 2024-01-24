@@ -1,4 +1,5 @@
 import DealsChart from "@/components/home/deals-chart";
+import DashboardLatestActivities from "@/components/home/latest-activities";
 import DashboardTotalCountCard from "@/components/home/total-count-card";
 import UpcomingEvents from "@/components/home/upcoming-events";
 import { DASHBOARD_TOTAL_COUNTS_QUERY } from "@/graphql/queries";
@@ -61,6 +62,12 @@ export default function Home() {
             height: "460px",
           }}>
           <DealsChart />
+        </Col>
+      </Row>
+
+      <Row gutter={[32, 32]} style={{ marginTop: "32px" }}>
+        <Col xs={24}>
+          <DashboardLatestActivities />
         </Col>
       </Row>
     </div>
