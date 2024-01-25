@@ -22,6 +22,7 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import Home from "./pages/home";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
+import TaskList from "./pages/tasks/list";
 import { authProvider, dataProvider, liveProvider } from "./provider";
 
 function App() {
@@ -64,6 +65,10 @@ function App() {
                     <Route index element={<CompanyList />} />
                     <Route path="new" element={<Create />} />
                     <Route path="edit/:id" element={<EditPage />} />
+                  </Route>
+
+                  <Route path="/tasks">
+                    <Route index element={<TaskList />} />
                   </Route>
                 </Route>
               </Routes>
