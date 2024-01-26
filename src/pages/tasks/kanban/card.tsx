@@ -9,6 +9,7 @@ import {
   EyeOutlined,
   MoreOutlined,
 } from "@ant-design/icons";
+import { useDelete, useNavigation } from "@refinedev/core";
 import {
   Button,
   Card,
@@ -44,7 +45,8 @@ export default function ProjectCard({
 }: Props) {
   const { token } = theme.useToken();
 
-  const edit = () => {};
+  const { edit } = useNavigation();
+  const { mutate: remove } = useDelete();
 
   const dropdownItems = useMemo(() => {
     const dropdownItems: MenuProps["items"] = [
@@ -52,14 +54,21 @@ export default function ProjectCard({
         label: "View card",
         key: "1",
         icon: <EyeOutlined />,
-        onClick: () => edit(),
+        onClick: () => edit("task", id, "replace"),
       },
       {
         danger: true,
         label: "Delete card",
         key: "2",
         icon: <DeleteOutlined />,
-        onClick: () => {},
+        onClick: () =>
+          remove({
+            resource: "tasks",
+            id,
+            meta: {
+              operation: "task",
+            },
+          }),
       },
     ];
 

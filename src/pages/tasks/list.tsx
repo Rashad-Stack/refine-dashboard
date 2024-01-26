@@ -1,9 +1,11 @@
 import KanbanColumnSkeleton from "@/components/skeleton/kanban";
 import ProjectCardSkeleton from "@/components/skeleton/project-card";
+import { UPDATE_TASK_STAGE_MUTATION } from "@/graphql/mutations";
 import { TASKS_QUERY, TASK_STAGES_QUERY } from "@/graphql/queries";
 import { TaskStage } from "@/graphql/schema.types";
 import { TasksQuery } from "@/graphql/types";
-import { useList } from "@refinedev/core";
+import { DragEndEvent } from "@dnd-kit/core";
+import { useList, useUpdate } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { PropsWithChildren, useMemo } from "react";
 import { KanbanAddCardButton } from "./kanban/add-card.button";
@@ -55,6 +57,8 @@ export default function TaskList({ children }: PropsWithChildren) {
     },
   });
 
+  const { mutate: updateTask } = useUpdate();
+
   const taskStages = useMemo(() => {
     if (!tasks?.data || !stages?.data) {
       return {
@@ -77,6 +81,31 @@ export default function TaskList({ children }: PropsWithChildren) {
 
   const handleAddCard = (args: { stageId: string }) => {};
 
+  const handleOnDragEnd = (event: DragEndEvent) => {
+    let stageId = event.over?.id as undefined | string | null;
+    const taskId = event.active.id as string;
+    const taskStageId = event.active.data.current?.stageId;
+
+    if (taskStageId === stageId) return;
+
+    if (stageId === "unsigned") {
+      stageId = null;
+    }
+
+    updateTask({
+      resource: "task",
+      id: taskId,
+      values: {
+        stageId: stageId,
+      },
+      successNotification: false,
+      mutationMode: "optimistic",
+      meta: {
+        gqlMutation: UPDATE_TASK_STAGE_MUTATION,
+      },
+    });
+  };
+
   const isLoading = isLoadingStages || isLoadingTasks;
 
   if (isLoading) return <PageSkeleton />;
@@ -84,7 +113,7 @@ export default function TaskList({ children }: PropsWithChildren) {
   return (
     <>
       <KanbanBoardContainer>
-        <KanbanBoard>
+        <KanbanBoard onDragEnd={handleOnDragEnd}>
           <KanbanColumn
             id="unsigned"
             title={"unsigned"}
