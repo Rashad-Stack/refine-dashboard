@@ -4,6 +4,7 @@ import { TasksQuery } from "@/graphql/types";
 import { useList } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { useMemo } from "react";
+import { KanbanAddCardButton } from "./kanban/add-card.button";
 import KanbanBoard from "./kanban/board";
 import { ProjectCardMemo } from "./kanban/card";
 import KanbanColumn from "./kanban/column";
@@ -94,6 +95,12 @@ export default function TaskList() {
                 />
               </KanbanItem>
             ))}
+
+            {!taskStages.unsignedStages.length && (
+              <KanbanAddCardButton
+                onClick={() => handleAddCard({ stageId: "unsigned" })}
+              />
+            )}
           </KanbanColumn>
         </KanbanBoard>
       </KanbanBoardContainer>
