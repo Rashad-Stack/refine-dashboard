@@ -73,7 +73,7 @@ export default function ProjectCard({
     ];
 
     return dropdownItems;
-  }, []);
+  }, [edit, id, remove]);
 
   const dueDateOptions = useMemo(() => {
     if (!dueDate) return null;
@@ -101,7 +101,7 @@ export default function ProjectCard({
       <Card
         size="small"
         title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
-        onClick={() => edit()}
+        onClick={() => edit("task", id, "replace")}
         extra={
           <Dropdown
             trigger={["click"]}

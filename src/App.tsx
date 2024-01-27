@@ -22,7 +22,10 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import Home from "./pages/home";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
-import TaskList from "./pages/tasks/list";
+
+import TaskCreate from "./components/tasks/create";
+import TaskEdit from "./components/tasks/edit";
+import TaskList from "./components/tasks/list";
 import { authProvider, dataProvider, liveProvider } from "./provider";
 
 function App() {
@@ -67,8 +70,16 @@ function App() {
                     <Route path="edit/:id" element={<EditPage />} />
                   </Route>
 
-                  <Route path="/tasks">
-                    <Route index element={<TaskList />} />
+                  <Route
+                    path="/tasks"
+                    element={
+                      <TaskList>
+                        <Outlet />
+                      </TaskList>
+                    }>
+                    <Route path="new" element={<TaskCreate />} />
+
+                    <Route path="edit/:id" element={<TaskEdit />} />
                   </Route>
                 </Route>
               </Routes>

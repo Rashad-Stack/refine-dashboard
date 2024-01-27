@@ -5,7 +5,7 @@ import { TASKS_QUERY, TASK_STAGES_QUERY } from "@/graphql/queries";
 import { TaskStage } from "@/graphql/schema.types";
 import { TasksQuery } from "@/graphql/types";
 import { DragEndEvent } from "@dnd-kit/core";
-import { useList, useUpdate } from "@refinedev/core";
+import { useList, useNavigation, useUpdate } from "@refinedev/core";
 import { GetFieldsFromList } from "@refinedev/nestjs-query";
 import { PropsWithChildren, useMemo } from "react";
 import { KanbanAddCardButton } from "./kanban/add-card.button";
@@ -16,6 +16,8 @@ import KanbanBoardContainer from "./kanban/container";
 import KanbanItem from "./kanban/item";
 
 export default function TaskList({ children }: PropsWithChildren) {
+  const { replace } = useNavigation();
+
   const { data: stages, isLoading: isLoadingStages } = useList<TaskStage>({
     resource: "taskStages",
     filters: [
@@ -79,7 +81,14 @@ export default function TaskList({ children }: PropsWithChildren) {
     };
   }, [tasks, stages]);
 
-  const handleAddCard = (args: { stageId: string }) => {};
+  const handleAddCard = (args: { stageId: string }) => {
+    const path =
+      args.stageId === "unsigned"
+        ? "/tasks/new"
+        : `/tasks/new?stageId=${args.stageId}`;
+
+    replace(path);
+  };
 
   const handleOnDragEnd = (event: DragEndEvent) => {
     let stageId = event.over?.id as undefined | string | null;
