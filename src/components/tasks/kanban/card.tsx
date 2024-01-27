@@ -36,13 +36,7 @@ type Props = {
   }[];
 };
 
-export default function ProjectCard({
-  id,
-  title,
-  updatedAt,
-  dueDate,
-  users,
-}: Props) {
+export default function ProjectCard({ id, title, dueDate, users }: Props) {
   const { token } = theme.useToken();
 
   const { edit } = useNavigation();
@@ -54,7 +48,7 @@ export default function ProjectCard({
         label: "View card",
         key: "1",
         icon: <EyeOutlined />,
-        onClick: () => edit("task", id, "replace"),
+        onClick: () => edit("tasks", id, "replace"),
       },
       {
         danger: true,
@@ -101,12 +95,14 @@ export default function ProjectCard({
       <Card
         size="small"
         title={<Text ellipsis={{ tooltip: title }}>{title}</Text>}
-        onClick={() => edit("task", id, "replace")}
+        onClick={() => edit("tasks", id, "replace")}
         extra={
           <Dropdown
             trigger={["click"]}
             menu={{
               items: dropdownItems,
+              onPointerDown: (e) => e.stopPropagation(),
+              onClick: (e) => e.domEvent.stopPropagation(),
             }}
             placement="bottom"
             arrow={{ pointAtCenter: true }}>
