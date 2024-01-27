@@ -2,7 +2,6 @@ import KanbanColumnSkeleton from "@/components/skeleton/kanban";
 import ProjectCardSkeleton from "@/components/skeleton/project-card";
 import { UPDATE_TASK_STAGE_MUTATION } from "@/graphql/mutations";
 import { TASKS_QUERY, TASK_STAGES_QUERY } from "@/graphql/queries";
-import { TaskStage } from "@/graphql/schema.types";
 import { TasksQuery } from "@/graphql/types";
 import { DragEndEvent } from "@dnd-kit/core";
 import { useList, useNavigation, useUpdate } from "@refinedev/core";
@@ -14,6 +13,11 @@ import { ProjectCardMemo } from "./kanban/card";
 import KanbanColumn from "./kanban/column";
 import KanbanBoardContainer from "./kanban/container";
 import KanbanItem from "./kanban/item";
+
+type Task = GetFieldsFromList<TasksQuery>;
+type TaskStage = GetFieldsFromList<TasksQuery> & {
+  tasks: Task[];
+};
 
 export default function TaskList({ children }: PropsWithChildren) {
   const { replace } = useNavigation();
